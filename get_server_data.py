@@ -14,7 +14,7 @@ class GetServerData:
         self.url:str = url
 
     def fetch_server_data(self)->None:
-        while self.page < 329:
+        while self.page < 5:
             self.page += 1 
             try:
                 LOGGER.info(f'Fetching page {self.page} . . .')
@@ -30,5 +30,6 @@ class GetServerData:
         self.fetch_server_data()
 
 if __name__=='__main__':
-    server_data = GetServerData(url='https://www.coinbase.com/price').run()
-    print(server_data.html_docs)
+    server_data = GetServerData(url='https://www.coinbase.com/price')
+    server_data.run()
+    LOGGER.info(server_data.html_docs)
