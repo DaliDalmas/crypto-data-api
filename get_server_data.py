@@ -1,6 +1,7 @@
 from datetime import datetime
 from time import sleep
 import requests
+import pickle
 
 import logging as lg
 lg.basicConfig(level=lg.INFO)
@@ -26,8 +27,10 @@ class GetServerData:
             self.html_docs.append(doc)
             sleep(1)
  
-    def run(self)->str:
+    def run(self)->None:
         self.fetch_server_data()
+        with open('fetched_server_data', 'wb') as fetched_server_data:
+            pickle.dump(self.html_docs, fetched_server_data)
 
 if __name__=='__main__':
     server_data = GetServerData(url='https://www.coinbase.com/price')
