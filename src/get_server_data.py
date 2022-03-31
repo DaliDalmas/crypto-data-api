@@ -22,7 +22,7 @@ class GetServerData:
         self.url:str = url
 
     def fetch_server_data(self)->None:
-        while self.page < 5000:
+        while self.page <= 300:
             self.page += 1 
             try:
                 LOGGER.info(f'Fetching page {self.page} . . .')
