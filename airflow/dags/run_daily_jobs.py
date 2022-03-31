@@ -1,12 +1,15 @@
 import sys
-sys.path.append('/Users/dalmas.otieno/Documents/learnings/crypto-data-api-and-analytics-dashboard')
+import json
+my_settings = open('my_settings.json')
+settings = json.load(my_settings)
+sys.path.append(settings["BASE_PATH"])
+
 
 import datetime
 from airflow import DAG
-from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
-import get_server_data as gsd
-import scrape_crypto_table as gct
+import src.get_server_data as gsd
+import src.scrape_crypto_table as gct
 
 dag = DAG(
     dag_id='run_daily_jobs',
@@ -18,7 +21,7 @@ dag = DAG(
 
 run_get_crypto_server_data = PythonOperator(
     task_id = 'run_get_crypto_server_data',
-    python_callable= gsd.GetServerData(url='https://www.coinbase.com/price').run,
+    python_callable= gsd.GetServerData(url=settings["BASE_URL"]).run,
     dag=dag
 )
 

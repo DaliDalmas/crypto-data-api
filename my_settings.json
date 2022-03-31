@@ -1,0 +1,4 @@
+{"BASE_URL" : "https://coinmarketcap.com/",
+"BASE_PATH" : "/Users/dalmas.otieno/Documents/learnings/crypto-data-api-and-analytics-dashboard",
+"BINARY_SERVER_DATA_PATH":"generated_files/fetched_server_data",
+"CSV_SERVER_DATA_PATH":"generated_files/todays_crypto.csv"}

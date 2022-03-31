@@ -1,7 +1,14 @@
+import sys
+import json
+my_settings = open('my_settings.json')
+settings = json.load(my_settings)
+sys.path.append(settings["BASE_PATH"])
+
 from datetime import datetime
 from time import sleep
 import requests
 import pickle
+
 
 import logging as lg
 lg.basicConfig(level=lg.INFO)
@@ -15,7 +22,7 @@ class GetServerData:
         self.url:str = url
 
     def fetch_server_data(self)->None:
-        while self.page < 5:
+        while self.page < 5000:
             self.page += 1 
             try:
                 LOGGER.info(f'Fetching page {self.page} . . .')
@@ -25,14 +32,12 @@ class GetServerData:
                 LOGGER.info(e)
                 return None
             self.html_docs.append(doc)
-            sleep(1)
  
-    def run(self)->None:
+    def run(self):
         self.fetch_server_data()
-        with open('fetched_server_data', 'wb') as fetched_server_data:
+        with open(settings["BINARY_SERVER_DATA_PATH"], 'wb') as fetched_server_data:
             pickle.dump(self.html_docs, fetched_server_data)
 
 if __name__=='__main__':
-    server_data = GetServerData(url='https://www.coinbase.com/price')
+    server_data = GetServerData(url=settings["BASE_URL"])
     server_data.run()
-    LOGGER.info(server_data.html_docs)
