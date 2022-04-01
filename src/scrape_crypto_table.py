@@ -24,6 +24,8 @@ class ScrapeCryptoTable:
 
     def _extract_data_from_page(self, soup)->None:
         table_body = soup.find('tbody')
+        if table_body is None:
+            return None
         table_rows = table_body.find_all('tr')
         for row in table_rows:
             coin_name_soup = row.find('p', {'class': 'iworPT'})

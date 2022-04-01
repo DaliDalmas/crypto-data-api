@@ -10,6 +10,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 import src.get_server_data as gsd
 import src.scrape_crypto_table as gct
+import src.load_data_to_db as ldtb
 
 dag = DAG(
     dag_id='run_daily_jobs',
@@ -31,4 +32,16 @@ run_scrape_crypto_server_data = PythonOperator(
     dag=dag
 )
 
-run_get_crypto_server_data >> run_scrape_crypto_server_data
+run_load_scraped_date = PythonOperator(
+    task_id = 'run_load_scraped_date',
+    python_callable= ldtb.LoadDataToDB(
+        host=settings['database']['host'],
+        user=settings['database']['user'],
+        passw=settings['database']['passwor'],
+        db=settings['database']['db'],
+        schema=settings['database']['schema']
+    ).run,
+    dag=dag
+)
+
+run_get_crypto_server_data >> run_scrape_crypto_server_data >> run_load_scraped_date
