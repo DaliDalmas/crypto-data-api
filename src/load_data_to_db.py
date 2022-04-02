@@ -55,7 +55,7 @@ class LoadDataToDB:
             table=settings['table_details']['table']
             )
         self.save_to_table()
-        
+
 
 if __name__=='__main__':
     load_data = LoadDataToDB(
