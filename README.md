@@ -17,7 +17,7 @@ This product scrapes the web for the value of crypto currencies then serves the 
 4. run `airflow webserver`
 5. Open a new terminal in the root directory of the project and activate the virtual environment using step 2
 6. run `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`
-7. run `export AIRFLOW_HOME=\`pwd\``
+7. run `export AIRFLOW_HOME=`pwd\``
 8. run `airflow scheduler`
 9. you can access airflow on your web browser on ``
 
