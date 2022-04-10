@@ -1,15 +1,11 @@
-from sqlalchemy import Column, String, Float, DateTime
-from sqlalchemy import PrimaryKeyConstraint
-from database import Base
+from typing import Optional
+from uuid import UUID, uuid4
+from pydantic import BaseModel # helps with validating the data
+from datetime import datetime
 
-
-class CryptoTable(Base):
-    __tablename__ = "todays_crypto"
-    __table_args__ = (
-        PrimaryKeyConstraint('coin_name', 'coin_value', 'date_time'),
-    )
-
-    coin_name = Column(String)
-    coin_value = Column(Float)
-    date_time = Column(DateTime)
-
+class Cryptos(BaseModel):
+    id:Optional[UUID] = uuid4()
+    coin_name:str
+    coin_value:float
+    date_time:datetime
+    

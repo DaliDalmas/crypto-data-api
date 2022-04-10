@@ -1,32 +1,30 @@
-import sys
-import json
+from typing import List
+from uuid import uuid4
+from fastapi import FastAPI
 
-my_settings = open('../my_settings.json')
-settings = json.load(my_settings)
-sys.path.append(settings["BASE_PATH"])
-
-from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy.orm import Session
-
-import crud, models, schemas
-from database import SessionLocal, engine
-
-models.Base.metadata.create_all(bind=engine)
+from models import Cryptos
 
 app = FastAPI()
 
+db: List[Cryptos] = [
+    Cryptos(
+        id=uuid4(),
+        coin_name="BitCoin",
+        coin_value=33000.0,
+        date_time='2022-03-01 00:00:00'
+    ),
+    Cryptos(
+        id=uuid4(),
+        coin_name="DogeCoin",
+        coin_value=300.0,
+        date_time='2022-03-10 00:00:00'
+    )
+]
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+@app.get('/api/v1/cryptos')
+async def fetch_cryptos():
+    return db
 
-
-
-@app.get("/all_cryptos/", response_model=list[schemas.CryptoTable])
-def read_cryptos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    cryptos = crud.get_cryptos(db, skip=skip, limit=limit)
-    return cryptos
+@app.get('/api/v1/cryptos/stats')
+async def fetch_stats():
+    return db
