@@ -13,7 +13,10 @@ from database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(
+    title="Crypto data api",
+    version="0.0.1",
+)
 
 
 # Dependency
